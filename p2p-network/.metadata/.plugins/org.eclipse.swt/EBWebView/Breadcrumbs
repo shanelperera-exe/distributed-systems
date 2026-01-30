@@ -1,0 +1,69 @@
+0:19:39 Microsoft.Shutdown.TabStripModel.CloseTabs
+0:19:39 Microsoft.Shutdown.TabStripModel.CloseTabs_EdgeBeforeClosingAllTabs
+0:19:39 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl
+0:19:39 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_TabClosable
+0:19:39 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_ClosingAll
+0:19:39 Microsoft.Shutdown.TabStripModel.CloseWebContentses
+0:19:39 Microsoft.Shutdown.TabStripModel.CloseWebContentses_FastShutdown
+0:19:39 Microsoft.Shutdown.TabStripModel.ShouldRunUnloadListenerBeforeClosing_false
+0:19:39 Tab4 RenderProcessGone
+0:19:39 Microsoft.UnloadController.ClearUnloadState
+0:19:39 Microsoft.Shutdown.TabStripModel.RunUnloadListenerBeforeClosing_false
+0:19:39 Microsoft.Shutdown.TabStripModel.InternalCloseTabsImpl_ClosedAll
+0:19:39 Microsoft.Shutdown.TabStripModel.SendDetachWebContentsNotifications
+0:19:39 Microsoft.UnloadController.ClearUnloadState
+0:19:39 Browser4 Close Tab4 at 0
+0:19:39 Tab4 WebContentsDestroyed
+0:19:39 Microsoft.UnloadController.TabStripEmpty
+0:19:39 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+0:19:39 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+0:19:39 Microsoft.Shutdown.OnWindowClosing
+0:19:39 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+0:19:39 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+0:19:39 Microsoft.Shutdown.OnWindowClosing_MaybeClearBrowsingDataOnExit
+0:19:39 Microsoft.Shutdown.OnWindowClosing_ClearBrowsingDataOnExitNotInProgress
+0:19:39 Microsoft.Shutdown.OnWindowClosingPostClearBrowsingData_NoBrowsingDataCleared
+0:19:39 Widget Closed: BrowserWidget
+0:19:39 Microsoft.UnloadController.HasCompletedUnloadProcessing_True
+0:19:39 Microsoft.Shutdown.OnWindowClosing
+0:19:39 Microsoft.Shutdown.OnWindowClosing_DeleteScheduled
+0:19:39 Microsoft.Browser_Removed
+0:20:20 Tab6 StartNav60 #typed
+0:20:20 Tab6 FinishNav60
+0:20:20 Tab6 PageLoad
+0:20:29 Tab6 StartNav61 #typed
+0:20:29 Tab6 FinishNav61
+0:20:29 Tab6 PageLoad
+0:20:29 Tab6 StartNav62 #typed
+0:20:29 Tab6 FinishNav62
+0:20:29 Tab6 PageLoad
+0:20:33 Tab6 StartNav63 #typed
+0:20:33 Tab6 FinishNav63
+0:20:33 Tab6 PageLoad
+0:20:40 Tab6 StartNav64 #typed
+0:20:40 Tab6 FinishNav64
+0:20:40 Tab6 PageLoad
+0:20:54 Tab6 StartNav65 #typed
+0:20:54 Tab6 FinishNav65
+0:20:54 Tab6 PageLoad
+0:21:22 Tab6 StartNav66 #typed
+0:21:22 Tab6 FinishNav66
+0:21:22 Tab6 PageLoad
+0:21:26 Tab6 StartNav67 #typed
+0:21:26 Tab6 FinishNav67
+0:21:26 Tab6 PageLoad
+0:21:40 Tab6 StartNav68 #typed
+0:21:40 Tab6 FinishNav68
+0:21:40 Tab6 PageLoad
+0:21:41 Tab6 StartNav69 #typed
+0:21:41 Tab6 FinishNav69
+0:21:41 Tab6 PageLoad
+0:23:38 Tab6 StartNav70 #typed
+0:23:38 Tab6 FinishNav70
+0:23:38 Tab6 PageLoad
+0:23:40 Tab6 StartNav71 #typed
+0:23:40 Tab6 FinishNav71
+0:23:40 Tab6 PageLoad
+0:23:42 Tab6 StartNav72 #typed
+0:23:42 Tab6 FinishNav72
+0:23:42 Tab6 PageLoad

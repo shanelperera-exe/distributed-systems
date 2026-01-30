@@ -1,0 +1,158 @@
+package p2p;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
+import java.util.Collections;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import rice.environment.Environment;
+import rice.p2p.commonapi.Application;
+import rice.p2p.commonapi.Endpoint;
+import rice.p2p.commonapi.Id;
+import rice.p2p.commonapi.Message;
+import rice.p2p.commonapi.NodeHandle;
+import rice.p2p.commonapi.RouteMessage;
+import rice.pastry.PastryNode;
+import rice.pastry.PastryNodeFactory;
+import rice.pastry.socket.SocketPastryNodeFactory;
+import rice.pastry.standard.RandomNodeIdFactory;
+
+public class PeerNode implements Application {
+
+    private Endpoint endpoint;
+    private String nodeId;
+    private PastryNode node;
+
+    // Thread-safe set to track received messages
+    private Set<String> receivedMessageIds =
+            Collections.synchronizedSet(new HashSet<>());
+
+    public PeerNode(PastryNode node) {
+        this.node = node;
+        this.endpoint = node.buildEndpoint(this, "PeerNode");
+        this.nodeId = node.getId().toString();
+        endpoint.register();
+    }
+
+    @Override
+    public void deliver(Id id, Message message) {
+
+        if (!(message instanceof SimpleMessage)) {
+            return;
+        }
+
+        SimpleMessage msg = (SimpleMessage) message;
+
+        // Prevent duplicate processing
+        if (receivedMessageIds.contains(msg.messageId)) {
+            return;
+        }
+
+        receivedMessageIds.add(msg.messageId);
+
+        System.out.println("Received from " + msg.sender + ": " + msg.content);
+
+        // Rebroadcast only once
+        if (msg.isBroadcast) {
+            broadcastMessage(msg);
+        }
+    }
+
+    /**
+     * Broadcasts a message to all neighbors using the same message ID.
+     */
+    public void broadcastMessage(SimpleMessage msg) {
+
+        List<rice.pastry.NodeHandle> neighbors =
+                node.getLeafSet().asList();
+
+        for (rice.pastry.NodeHandle nh : neighbors) {
+
+            // Avoid sending to self
+            if (!nh.equals(endpoint.getLocalNodeHandle())) {
+                endpoint.route(null, msg, nh);
+            }
+        }
+    }
+
+    @Override
+    public boolean forward(RouteMessage message) {
+        return true; // Enable routing
+    }
+
+    @Override
+    public void update(NodeHandle handle, boolean joined) {
+        if (joined) {
+            System.out.println("Node joined: " + handle);
+        } else {
+            System.out.println("Node left: " + handle);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        if (args.length < 1) {
+            System.err.println("Usage: java PeerNode <port> [bootstrapPort]");
+            return;
+        }
+
+        int port = Integer.parseInt(args[0]);
+        Environment env = new Environment();
+
+        PastryNodeFactory factory =
+                new SocketPastryNodeFactory(
+                        new RandomNodeIdFactory(env),
+                        port,
+                        env
+                );
+
+        PastryNode node = factory.newNode();
+        PeerNode peer = new PeerNode(node);
+
+        if (args.length == 1) {
+            System.out.println("Starting bootstrap node...");
+            node.boot(Collections.emptyList());
+        } else {
+            int bootstrapPort = Integer.parseInt(args[1]);
+            node.boot(Collections.singletonList(
+                    new InetSocketAddress("127.0.0.1", bootstrapPort)));
+        }
+
+        Thread.sleep(3000);
+
+        System.out.println("PeerNode ready: " + peer.nodeId);
+        System.out.println("Commands: broadcast <msg>, status, exit");
+
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+
+        while (true) {
+            System.out.print("> ");
+            String cmd = reader.readLine().trim();
+
+            if (cmd.equalsIgnoreCase("exit")) {
+                env.destroy();
+                break;
+            } else if (cmd.equalsIgnoreCase("status")) {
+                System.out.println("Node ID: " + peer.nodeId);
+            } else if (cmd.startsWith("broadcast ")) {
+
+                String content = cmd.substring(10);
+
+                SimpleMessage msg = new SimpleMessage(
+                        peer.endpoint.getLocalNodeHandle(),
+                        content,
+                        true
+                );
+
+                peer.broadcastMessage(msg);
+                System.out.println("Broadcast sent.");
+            } else {
+                System.out.println("Unknown command");
+            }
+        }
+    }
+}

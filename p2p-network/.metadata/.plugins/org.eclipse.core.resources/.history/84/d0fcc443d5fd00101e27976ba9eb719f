@@ -1,0 +1,46 @@
+package p2p;
+
+import rice.p2p.commonapi.Message;
+import rice.p2p.commonapi.NodeHandle;
+
+import java.io.Serializable;
+import java.util.UUID;
+
+/**
+ * Represents a message that can be sent in the P2P network.
+ */
+public class SimpleMessage implements Message, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public NodeHandle sender;
+    public String content;
+
+    // Unique message ID to prevent duplicate broadcasts
+    public String messageId;
+
+    // Flag to indicate broadcast messages
+    public boolean isBroadcast;
+
+    /**
+     * Constructor for creating a message.
+     *
+     * @param sender      The sender node
+     * @param content     The message content
+     * @param isBroadcast Whether this message is a broadcast
+     */
+    public SimpleMessage(NodeHandle sender, String content, boolean isBroadcast) {
+        this.sender = sender;
+        this.content = content;
+        this.isBroadcast = isBroadcast;
+        this.messageId = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Message priority.
+     */
+    @Override
+    public int getPriority() {
+        return Message.LOW_PRIORITY;
+    }
+}

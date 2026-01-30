@@ -1,0 +1,25 @@
+package p2p;
+
+import rice.p2p.commonapi.Message;
+import rice.p2p.commonapi.NodeHandle;
+import java.util.UUID;
+
+public class SimpleMessage implements Message {
+
+    public NodeHandle sender;
+    public String content;
+    public boolean isBroadcast;
+    public String messageId;
+
+    public SimpleMessage(NodeHandle sender, String content, boolean isBroadcast) {
+        this.sender = sender;
+        this.content = content;
+        this.isBroadcast = isBroadcast;
+        this.messageId = UUID.randomUUID().toString();
+    }
+
+    @Override
+    public int getPriority() {
+        return Message.LOW_PRIORITY;
+    }
+}
